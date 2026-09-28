@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c7rrwgbnxl5qx"]
+
+[ext_resource type="Script" uid="uid://yu1qgsv3uk5d" path="res://sprite_2d.gd" id="1_37kl0"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_dbi37"]
+
+[node name="Node2D" type="Node2D" unique_id=328759283]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1702290547]
+texture = SubResource("ViewportTexture_dbi37")
+script = ExtResource("1_37kl0")
