@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://nqrve8kjgbja"]
+
+[ext_resource type="Script" uid="uid://cfgbss0oykirg" path="res://enemy_script.gd" id="1_33ws2"]
+[ext_resource type="Texture2D" uid="uid://3g37od2eh0rr" path="res://SamF/Jird.png" id="2_fm3wo"]
+
+[node name="Jird" type="Node2D" unique_id=1490443649]
+script = ExtResource("1_33ws2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=874034393]
+texture = ExtResource("2_fm3wo")
