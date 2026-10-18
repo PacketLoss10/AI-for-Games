@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://n12cc58e52t0"]
+
+[ext_resource type="PackedScene" uid="uid://dumlupoa5vquk" path="res://boid.tscn" id="1_pwkfi"]
+
+[node name="Scene" type="Node2D" unique_id=175176525]
+
+[node name="Boid1" parent="." unique_id=137330260 instance=ExtResource("1_pwkfi")]
+position = Vector2(560, 420)
+
+[node name="Boid2" parent="." unique_id=1166701995 instance=ExtResource("1_pwkfi")]
+position = Vector2(560, 420)
+
+[node name="Boid3" parent="." unique_id=1294100207 instance=ExtResource("1_pwkfi")]
+position = Vector2(650, 530)
+
+[node name="Boid4" parent="." unique_id=979363387 instance=ExtResource("1_pwkfi")]
+position = Vector2(900, 620)
+
+[node name="Boid5" parent="." unique_id=1220915124 instance=ExtResource("1_pwkfi")]
+position = Vector2(930, 510)
+
+[node name="Boid6" parent="." unique_id=1731930620 instance=ExtResource("1_pwkfi")]
+position = Vector2(990, 560)
+
+[node name="Boid7" parent="." unique_id=1213144527 instance=ExtResource("1_pwkfi")]
+position = Vector2(940, 570)
+
+[node name="Boid8" parent="." unique_id=964538372 instance=ExtResource("1_pwkfi")]
+position = Vector2(900, 710)
+
+[node name="Boid9" parent="." unique_id=581934166 instance=ExtResource("1_pwkfi")]
+position = Vector2(1240, 700)
+
+[node name="Boid10" parent="." unique_id=584036938 instance=ExtResource("1_pwkfi")]
+position = Vector2(1010, 420)
+
+[node name="Boid11" parent="." unique_id=1700951029 instance=ExtResource("1_pwkfi")]
+position = Vector2(0, 400)
+
+[node name="Boid12" parent="." unique_id=1664479530 instance=ExtResource("1_pwkfi")]
+position = Vector2(1360, 380)
+
+[node name="Boid13" parent="." unique_id=764246516 instance=ExtResource("1_pwkfi")]
+position = Vector2(610, 150)
+
+[node name="Boid14" parent="." unique_id=192111245 instance=ExtResource("1_pwkfi")]
+position = Vector2(300, 150)
+
+[node name="Boid15" parent="." unique_id=309974180 instance=ExtResource("1_pwkfi")]
+position = Vector2(860, 180)
+
+[node name="Boid16" parent="." unique_id=809289187 instance=ExtResource("1_pwkfi")]
+position = Vector2(1070, 650)
+
+[node name="Boid17" parent="." unique_id=1910869365 instance=ExtResource("1_pwkfi")]
+position = Vector2(350, 140)
+
+[node name="Boid18" parent="." unique_id=383053423 instance=ExtResource("1_pwkfi")]
+position = Vector2(980, 90)
+
+[node name="Boid19" parent="." unique_id=868022692 instance=ExtResource("1_pwkfi")]
+position = Vector2(210, 310)
+
+[node name="Boid20" parent="." unique_id=668147575 instance=ExtResource("1_pwkfi")]
+position = Vector2(350, 260)
+
+[node name="Boid21" parent="." unique_id=347104290 instance=ExtResource("1_pwkfi")]
+position = Vector2(50, 600)
+
+[node name="Boid22" parent="." unique_id=1969988080 instance=ExtResource("1_pwkfi")]
+position = Vector2(490, 780)
+
+[node name="Boid23" parent="." unique_id=846728286 instance=ExtResource("1_pwkfi")]
+position = Vector2(410, 640)
+
+[node name="Boid24" parent="." unique_id=409702722 instance=ExtResource("1_pwkfi")]
+position = Vector2(1130, 650)
+
+[node name="Boid25" parent="." unique_id=506433824 instance=ExtResource("1_pwkfi")]
+position = Vector2(600, 90)
+
+[node name="Boid26" parent="." unique_id=40400348 instance=ExtResource("1_pwkfi")]
+position = Vector2(520, 20)
+
+[node name="Boid27" parent="." unique_id=1107024919 instance=ExtResource("1_pwkfi")]
+position = Vector2(930, 470)
+
+[node name="Boid28" parent="." unique_id=362425997 instance=ExtResource("1_pwkfi")]
+position = Vector2(330, 570)
+
+[node name="Boid29" parent="." unique_id=596745419 instance=ExtResource("1_pwkfi")]
+position = Vector2(150, 180)
+
+[node name="Boid30" parent="." unique_id=1197455885 instance=ExtResource("1_pwkfi")]
+position = Vector2(970, 440)
