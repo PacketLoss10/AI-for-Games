@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cih6otn3jpb8t"]
+
+[ext_resource type="Script" uid="uid://boejc1x8w6y4q" path="res://cost_area.gd" id="1_oygwt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oygwt"]
+size = Vector2(200, 200)
+
+[sub_resource type="LabelSettings" id="LabelSettings_oygwt"]
+font_size = 30
+font_color = Color(0, 0, 0, 1)
+
+[node name="CostArea" type="Node2D" unique_id=1229141042]
+script = ExtResource("1_oygwt")
+
+[node name="Area" type="Area2D" parent="." unique_id=1599663364]
+
+[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=786019618]
+shape = SubResource("RectangleShape2D_oygwt")
+
+[node name="Label" type="Label" parent="." unique_id=1543906970]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -49.0
+offset_right = 50.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "<cost>"
+label_settings = SubResource("LabelSettings_oygwt")
+horizontal_alignment = 1
+vertical_alignment = 1
