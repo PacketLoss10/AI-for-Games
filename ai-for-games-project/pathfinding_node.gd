@@ -1,9 +1,15 @@
-class_name PathFindingNode
+class_name PathfindingNode
 
 var _position := Vector2(0.0, 0.0)
-var _fCost := 0.0
-var _gCost := 0.0
 
-func _init(fCost: float, position: Vector2):
-	_fCost = fCost
+var _existingCost := INF
+var _heuristicCost := 0.0
+var _finalCost: float:
+	get:
+		return _existingCost + _heuristicCost
+
+var _closed := false
+var _previous: PathfindingNode = null
+
+func _init(position: Vector2):
 	_position = position

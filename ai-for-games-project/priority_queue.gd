@@ -12,14 +12,18 @@ func push(value):
 
 func pop():
 	if _data.is_empty():
-		return
+		return null
 		
+	var result = _data[0]
+	
 	if _data.size() == 1:
 		_data.pop_back()
-		return
+		return result
 		
 	_data[0] = _data.pop_back()
 	_sift_down(0)
+	
+	return result
 
 func top():
 	if _data.is_empty():

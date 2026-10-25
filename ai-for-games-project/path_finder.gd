@@ -7,114 +7,117 @@ enum Heuristic
 	Manhattan,
 	Chebyshev
 }
-var activeHeuristic := Heuristic.Euclidean
-
-const _stepSize := 20.0
-const _allDirections := [
-	Vector2(_stepSize, 0.0),
-	Vector2(-_stepSize, 0.0),
-	Vector2(0.0, _stepSize),
-	Vector2(0.0, -_stepSize),
-	Vector2(_stepSize, _stepSize),
-	Vector2(-_stepSize, _stepSize),
-	Vector2(_stepSize, -_stepSize),
-	Vector2(-_stepSize, -_stepSize)
-]
-const _noDiagonalDirections := [
-	Vector2(_stepSize, 0.0),
-	Vector2(-_stepSize, 0.0),
-	Vector2(0.0, _stepSize),
-	Vector2(0.0, -_stepSize)
-]
-var _validDirections = _allDirections
 
 const _maxIterations := 10000
 
 
-func euclidean_heuristic(v1: Vector2, v2: Vector2):
-	return (v1 - v2).length_squared()
+func get_directions(stepSize: float, allowDiagonal: bool) -> Array[Vector2]:
+	return [
+	Vector2(stepSize, 0.0),
+	Vector2(-stepSize, 0.0),
+	Vector2(0.0, stepSize),
+	Vector2(0.0, -stepSize),
+	Vector2(stepSize, stepSize),
+	Vector2(-stepSize, stepSize),
+	Vector2(stepSize, -stepSize),
+	Vector2(-stepSize, -stepSize) 
+	] if allowDiagonal else [
+	Vector2(stepSize, 0.0),
+	Vector2(-stepSize, 0.0),
+	Vector2(0.0, stepSize),
+	Vector2(0.0, -stepSize)
+	]
 
 
-func manhattan_heuristic(v1: Vector2, v2: Vector2):
-	return abs(v2.x - v1.x) + abs(v2.y - v1.y)
+func euclidean_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
+	return v1.distance_to(v2) / (stepSize * sqrt(2.0))
 
 
-func chebyshev_heuristic(v1: Vector2, v2: Vector2):
-	return max(abs(v2.x - v1.x), abs(v2.y - v1.y))
+func manhattan_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
+	return (abs(v2.x - v1.x) + abs(v2.y - v1.y)) / stepSize
 
 
-func compare_nodes(node1: PathFindingNode, node2: PathFindingNode):
-	return node1._fCost > node2._fCost
+func chebyshev_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
+	return max(abs(v2.x - v1.x), abs(v2.y - v1.y)) / stepSize
 
 
-func get_heuristic():
-	if activeHeuristic == Heuristic.Euclidean:
+func get_heuristic(heuristic: Heuristic) -> Callable:
+	if heuristic == Heuristic.Euclidean:
 		return euclidean_heuristic
-	elif activeHeuristic == Heuristic.Manhattan:
+	elif heuristic == Heuristic.Manhattan:
 		return manhattan_heuristic
-	elif activeHeuristic == Heuristic.Chebyshev:
+	elif heuristic == Heuristic.Chebyshev:
 		return chebyshev_heuristic
 	else:
 		return euclidean_heuristic
 
 
-func get_given_cost(position: Vector2):
-	# COST AREA DETECTION
-	pass
-
-
-func valid_adjacent_nodes(currentNode: PathFindingNode, useCollision: bool, collision: CollisionObject2D):
-	if useCollision and collision == null:
-		return
+func find_path(
+	start: Vector2, 
+	goal: Vector2, 
+	environment: Array, 
+	heuristic := Heuristic.Euclidean,
+	stepSize := 20.0,
+	allowDiagonal := true) -> Array[Vector2]:
 		
-	var adjacentNodes := Array()
-	for direction in _validDirections:
-		var adjacentNode := PathFindingNode.new(get_given_cost(currentNode._position + direction), currentNode._position + direction)
-		# COLLISION DETECTION
-		adjacentNodes.push_back(adjacentNode)
-	
-	return adjacentNodes
-
-func find_path(start: Vector2, end: Vector2, useCollision: bool = false, collision: CollisionObject2D = null):
-	var currentIteration := 0
-	
-	var open := PriorityQueue.new(compare_nodes)
-	var visited := Dictionary()
-	var gCosts := Dictionary()
-	var fCosts := Dictionary()
-	
-	gCosts[start] = 0.0
-	fCosts[start] = get_heuristic().call(start, end)
-	
-	open.push(PathFindingNode.new(fCosts[start], start))
-	while not open.is_empty() and currentIteration < _maxIterations:
-		currentIteration += 1
-		var currentNode : PathFindingNode = open.top()
-		open.pop()
+		var heuristicFuncion := get_heuristic(heuristic)
+		var directions := get_directions(stepSize, allowDiagonal)
 		
-		if get_heuristic().call(currentNode, end) < 1.0:
-			var path := Array()
-			while visited.values().count(currentNode):
-				path.push_back(currentNode)
-				currentNode = visited[currentNode]
-			return path
+		var open := PriorityQueue.new(func(A: PathfindingNode, B: PathfindingNode): return A._finalCost < B._finalCost)
+		var nodes := {}
+		
+		var startNode := PathfindingNode.new(start)
+		startNode._existingCost = 0.0
+		startNode._heuristicCost = heuristicFuncion.call(start, goal, stepSize)
+		nodes[Vector2i.ZERO] = startNode
+		open.push(startNode)
+		
+		var currentIteration := 0
+		while not open.is_empty() and currentIteration < _maxIterations:
+			currentIteration += 1
 			
-		for adjacentNode in valid_adjacent_nodes(currentNode, useCollision, collision):
-			var tentativeG = gCosts[currentNode._position] + adjacentNode._gCost
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+			var currentNode: PathfindingNode = open.pop()
+			if currentNode._closed:
+				continue
+			currentNode._closed = true
+			
+			if currentNode._position.distance_squared_to(goal) <= stepSize * stepSize:
+				var path: Array[Vector2] = [goal]
+				var n := currentNode
+				while n != null:
+					path.push_front(n._position)
+					n = n._previous
+				return path
+			
+			for direction in directions:
+				var pos: Vector2 = currentNode._position + direction
+				var key := Vector2i(((pos - start) / stepSize).round())
+				
+				var node: PathfindingNode = nodes.get(key)
+				if node != null and node._closed:
+					continue
+				
+				var totalAreaCost := 0.0
+				var blocked := false
+				for area in environment:
+					if area._blocking:
+						if area.contains_point(pos):
+							blocked = false
+							break
+					elif area.contains_point(pos):
+						totalAreaCost += area._cost
+				if blocked:
+					continue
+				
+				if node == null:
+					node = PathfindingNode.new(pos)
+					nodes[key] = node
+				
+				var newCost := currentNode._existingCost + direction.length() / stepSize + totalAreaCost
+				if newCost < node._existingCost:
+					node._existingCost = newCost
+					node._heuristicCost = heuristicFuncion.call(pos, goal, stepSize)
+					node._previous = currentNode
+					open.push(node)
+					
+		return []
