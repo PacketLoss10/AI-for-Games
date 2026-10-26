@@ -10,16 +10,16 @@ script = ExtResource("1_nnco5")
 [node name="Environment" type="Node2D" parent="." unique_id=1793068612]
 
 [node name="Area1" parent="Environment" unique_id=1229141042 instance=ExtResource("1_jcjpg")]
-position = Vector2(253, 208)
+position = Vector2(258, 208)
+_blocking = true
 _cost = 5.0
 _size = Vector2(500, 100)
-_visible = true
 
 [node name="Area2" parent="Environment" unique_id=1129500575 instance=ExtResource("1_jcjpg")]
 position = Vector2(538, 140)
+_blocking = true
 _cost = 200.0
 _size = Vector2(100, 500)
-_visible = true
 
 [node name="Enemies" type="Node2D" parent="." unique_id=917330937]
 

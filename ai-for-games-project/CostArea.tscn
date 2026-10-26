@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://boejc1x8w6y4q" path="res://cost_area.gd" id="1_oygwt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oygwt"]
-size = Vector2(2000, 100)
+size = Vector2(100, 100)
 
 [sub_resource type="LabelSettings" id="LabelSettings_oygwt"]
 font_size = 30
@@ -11,7 +11,6 @@ font_color = Color(0, 0, 0, 1)
 
 [node name="CostArea" type="Node2D" unique_id=1229141042]
 script = ExtResource("1_oygwt")
-_visible = null
 
 [node name="Area" type="Area2D" parent="." unique_id=1599663364]
 
@@ -20,6 +19,10 @@ shape = SubResource("RectangleShape2D_oygwt")
 debug_color = Color(0, 1, 0, 0.2)
 
 [node name="ColorRect" type="ColorRect" parent="Area" unique_id=1089650959]
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
 color = Color(0, 1, 0, 0.2)
 
 [node name="Label" type="Label" parent="." unique_id=1543906970]
