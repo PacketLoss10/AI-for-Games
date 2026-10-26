@@ -44,18 +44,18 @@ func get_area() -> Rect2:
 	return world
 
 
-func update_shape_params(blocking: bool, cost: float, size: Vector2, visible: bool):
+func update_shape_params(blocking: bool, cost: float, size: Vector2, isVisible: bool):
 	if $Area/Shape == null or $Label == null or $Area/Shape.shape == null or not $Area/Shape.shape is RectangleShape2D:
 		return
 	
 	$Area/Shape.debug_color = Color(1, 0, 0, 0.2) if blocking else Color(0, 1, 0, 0.2)
 	
 	$Label.text = str(cost)
-	$Label.visible = visible
+	$Label.visible = isVisible
 	
 	$Area/Shape.shape.size = size
 	
 	$Area/ColorRect.size = size
 	$Area/ColorRect.position = -size * 0.5
 	$Area/ColorRect.color = Color(1, 0, 0, 0.2) if blocking else Color(0, 1, 0, 0.2)
-	$Area/ColorRect.visible = visible
+	$Area/ColorRect.visible = isVisible

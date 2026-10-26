@@ -2,8 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cih6otn3jpb8t" path="res://CostArea.tscn" id="1_jcjpg"]
 [ext_resource type="Script" uid="uid://chogbu0jmtodh" path="res://pathfinding_test.gd" id="1_nnco5"]
-[ext_resource type="Texture2D" uid="uid://3g37od2eh0rr" path="res://SamF/Jird.png" id="2_qd8n6"]
-[ext_resource type="Script" uid="uid://basrn31llauof" path="res://pathfinder_agent.gd" id="3_nnco5"]
+[ext_resource type="PackedScene" uid="uid://d0xfb3t6dllxt" path="res://EnemyLeader.tscn" id="5_qi37o"]
 
 [node name="Root" type="Node2D" unique_id=111339850]
 script = ExtResource("1_nnco5")
@@ -22,8 +21,16 @@ _cost = 200.0
 _size = Vector2(100, 500)
 _visible = true
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1997374510]
-position = Vector2(68.00001, 98)
-scale = Vector2(0.14109348, 0.1937046)
-texture = ExtResource("2_qd8n6")
-script = ExtResource("3_nnco5")
+[node name="Enemies" type="Node2D" parent="." unique_id=917330937]
+
+[node name="EnemyLeader1" parent="Enemies" unique_id=2107522909 instance=ExtResource("5_qi37o")]
+position = Vector2(140, 482)
+
+[node name="EnemyLeader2" parent="Enemies" unique_id=664642248 instance=ExtResource("5_qi37o")]
+position = Vector2(572, 429)
+
+[node name="EnemyLeader3" parent="Enemies" unique_id=822433840 instance=ExtResource("5_qi37o")]
+position = Vector2(779, 135)
+
+[node name="EnemyLeader4" parent="Enemies" unique_id=330736622 instance=ExtResource("5_qi37o")]
+position = Vector2(946, 426)
