@@ -11,7 +11,7 @@ enum Heuristic
 const _maxIterations := 10000
 
 
-func get_directions(stepSize: float, allowDiagonal: bool) -> Array[Vector2]:
+static func get_directions(stepSize: float, allowDiagonal: bool) -> Array[Vector2]:
 	return [
 	Vector2(stepSize, 0.0),
 	Vector2(-stepSize, 0.0),
@@ -29,19 +29,19 @@ func get_directions(stepSize: float, allowDiagonal: bool) -> Array[Vector2]:
 	]
 
 
-func euclidean_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
+static func euclidean_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
 	return v1.distance_to(v2) / (stepSize * sqrt(2.0))
 
 
-func manhattan_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
+static func manhattan_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
 	return (abs(v2.x - v1.x) + abs(v2.y - v1.y)) / stepSize
 
 
-func chebyshev_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
+static func chebyshev_heuristic(v1: Vector2, v2: Vector2, stepSize: float):
 	return max(abs(v2.x - v1.x), abs(v2.y - v1.y)) / stepSize
 
 
-func get_heuristic(heuristic: Heuristic) -> Callable:
+static func get_heuristic(heuristic: Heuristic) -> Callable:
 	if heuristic == Heuristic.Euclidean:
 		return euclidean_heuristic
 	elif heuristic == Heuristic.Manhattan:
@@ -52,7 +52,7 @@ func get_heuristic(heuristic: Heuristic) -> Callable:
 		return euclidean_heuristic
 
 
-func find_path(
+static func find_path(
 	start: Vector2, 
 	goal: Vector2, 
 	environment: Array, 
@@ -61,7 +61,7 @@ func find_path(
 	allowDiagonal := true) -> Array[Vector2]:
 		
 		var heuristicFuncion := get_heuristic(heuristic)
-		var directions := get_directions(stepSize, allowDiagonal)
+		var directions = get_directions(stepSize, allowDiagonal)
 		
 		var open := PriorityQueue.new(func(A: PathfindingNode, B: PathfindingNode): return A._finalCost < B._finalCost)
 		var nodes := {}
@@ -85,7 +85,7 @@ func find_path(
 				var path: Array[Vector2] = [goal]
 				var n := currentNode
 				while n != null:
-					path.push_front(n._position)
+					path.push_back(n._position)
 					n = n._previous
 				return path
 			
@@ -102,7 +102,7 @@ func find_path(
 				for area in environment:
 					if area._blocking:
 						if area.contains_point(pos):
-							blocked = false
+							blocked = true
 							break
 					elif area.contains_point(pos):
 						totalAreaCost += area._cost

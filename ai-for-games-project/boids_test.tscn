@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://n12cc58e52t0"]
 
 [ext_resource type="PackedScene" uid="uid://dumlupoa5vquk" path="res://boid.tscn" id="1_pwkfi"]
-[ext_resource type="PackedScene" uid="uid://cih6otn3jpb8t" path="res://CostArea.tscn" id="2_cjbsg"]
 
 [node name="Scene" type="Node2D" unique_id=175176525]
 
@@ -64,8 +63,3 @@ position = Vector2(1065, 110)
 
 [node name="Boid20" parent="." unique_id=1836028517 instance=ExtResource("1_pwkfi")]
 position = Vector2(1055, 268)
-
-[node name="CostArea" parent="." unique_id=1229141042 instance=ExtResource("2_cjbsg")]
-position = Vector2(1213, 968)
-_cost = 3.01
-_size = Vector2(102.245, 100.91)
