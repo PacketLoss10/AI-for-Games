@@ -2,6 +2,7 @@
 class_name CostArea
 extends Node2D
 
+
 @export var _blocking := false:
 	set(value):
 		_blocking = value
@@ -12,6 +13,12 @@ extends Node2D
 	set(value):
 		_cost = value
 		update_shape_params(_blocking, _cost, _size, _visible)
+	
+	get:
+		if _blocking:
+			return INF
+		else:
+			return _cost
 
 
 @export var _size := Vector2(100.0, 100.0):

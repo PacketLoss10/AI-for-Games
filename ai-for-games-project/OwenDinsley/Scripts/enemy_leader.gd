@@ -1,5 +1,5 @@
 class_name EnemyLeader
-extends CharacterBody2D
+extends Boid
 
 
 var _speed := 300.0
@@ -8,9 +8,23 @@ var _currentPath: Array[Vector2] = []
 var _nextPosition := Vector2(0.0, 0.0)
 var _pathAcceptance := 5.0
 
+var _nearbyLeaders: Array[EnemyLeader]
+
+
+func leader_entered(body: Node2D):
+	var leader := body as EnemyLeader
+	if leader != null and leader != self:
+		_nearbyLeaders.push_back(leader)
+
+
+func leader_exited(body: Node2D):
+	var leader := body as EnemyLeader
+	if leader != null and leader != self:
+		_nearbyLeaders.push_back(leader)
+
 
 func find_path(goal: Vector2, environment: Array):
-	_currentPath = PathFinder.find_path(global_position, goal, environment)
+	_currentPath = PathFinder_NEW.find_path(global_position, goal, environment)
 	
 	if _currentPath.is_empty():
 		_hasPath = false
@@ -19,6 +33,12 @@ func find_path(goal: Vector2, environment: Array):
 	
 	_hasPath = true
 	_nextPosition = _currentPath.pop_back()
+
+
+func _ready() -> void:
+	$FlockRadius.body_entered.connect(leader_entered)
+	$FlockRadius.body_exited.connect(leader_entered)
+	_priority = 10.0
 
 
 func _physics_process(delta: float) -> void:

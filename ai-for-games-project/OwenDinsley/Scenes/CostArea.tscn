@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cih6otn3jpb8t"]
 
-[ext_resource type="Script" uid="uid://boejc1x8w6y4q" path="res://cost_area.gd" id="1_oygwt"]
+[ext_resource type="Script" uid="uid://boejc1x8w6y4q" path="res://OwenDinsley/Scripts/cost_area.gd" id="1_oygwt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oygwt"]
-size = Vector2(100, 100)
+size = Vector2(100, 500)
 
 [sub_resource type="LabelSettings" id="LabelSettings_oygwt"]
 font_size = 30
