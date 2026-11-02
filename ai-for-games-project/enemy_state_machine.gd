@@ -6,6 +6,16 @@ func _process(delta: float) -> void:
 	if currentState == null:
 		return
 	
+	if currentState.type == idle && player_in_line_of_sight()
+		var currentState: EnemyState = attack
+	
+	if currentState.type == attack && !player_in_line_of_sight()
+		var currentState: EnemyState = Idle
+	
+	if enemyHP == 0
+		var currentState: EnemyState = dead
+
+	
 	currentState.process_state(delta)
 	
 	# either program state transitions in here, e.g if currentState.type == Idle and player_in_line_of_sight() == true, then change_state(AttackState)
