@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0kmkdupgqigv"
-path="res://.godot/imported/galaxy_move_008.png-abd686c7926407915027067b65e426d3.ctex"
+uid="uid://drrhvwmkpfj7s"
+path="res://.godot/imported/galaxy_move_010.png-e4b0b9633f4f326c7621b6055b61795a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://galaxy_move_animation/galaxy_move_008.png"
-dest_files=["res://.godot/imported/galaxy_move_008.png-abd686c7926407915027067b65e426d3.ctex"]
+source_file="res://Assets/galaxy_move_animation/galaxy_move_010.png"
+dest_files=["res://.godot/imported/galaxy_move_010.png-e4b0b9633f4f326c7621b6055b61795a.ctex"]
 
 [params]
 

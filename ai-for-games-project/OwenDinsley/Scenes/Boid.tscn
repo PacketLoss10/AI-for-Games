@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dumlupoa5vquk"]
+
+[ext_resource type="Script" uid="uid://be3smv88bq30h" path="res://OwenDinsley/Scripts/boid.gd" id="1_oc5vq"]
+[ext_resource type="Texture2D" uid="uid://3g37od2eh0rr" path="res://SamF/Jird.png" id="2_pnm44"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+radius = 200.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_giwii"]
+radius = 31.016125
+
+[node name="Boid" type="CharacterBody2D" unique_id=220514928]
+script = ExtResource("1_oc5vq")
+
+[node name="Detection" type="Area2D" parent="." unique_id=516518511]
+
+[node name="Radius" type="CollisionShape2D" parent="Detection" unique_id=156709574]
+shape = SubResource("CircleShape2D_g4v7s")
+
+[node name="JirdSprite" type="Sprite2D" parent="." unique_id=196892293]
+scale = Vector2(0.105820104, 0.14527845)
+texture = ExtResource("2_pnm44")
+
+[node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=643406543]
+shape = SubResource("CircleShape2D_giwii")

@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://d0xfb3t6dllxt"]
+
+[ext_resource type="Script" uid="uid://gjnrvrkh4u5k" path="res://OwenDinsley/Scripts/enemy_leader.gd" id="1_qj1vc"]
+[ext_resource type="Texture2D" uid="uid://b86xnwpit2m3g" path="res://Assets/galaxy_move_animation/galaxy_move_000.png" id="2_wtfuu"]
+[ext_resource type="Texture2D" uid="uid://bcujw6engolkv" path="res://Assets/galaxy_move_animation/galaxy_move_001.png" id="3_ie4sy"]
+[ext_resource type="Texture2D" uid="uid://15biloa6kl2e" path="res://Assets/galaxy_move_animation/galaxy_move_002.png" id="4_whmn1"]
+[ext_resource type="Texture2D" uid="uid://bnmkccp2amynn" path="res://Assets/galaxy_move_animation/galaxy_move_003.png" id="5_rune5"]
+[ext_resource type="Texture2D" uid="uid://vbmgl08qynhe" path="res://Assets/galaxy_move_animation/galaxy_move_004.png" id="6_w62iv"]
+[ext_resource type="Texture2D" uid="uid://p436t0ggwb35" path="res://Assets/galaxy_move_animation/galaxy_move_005.png" id="7_hp3i0"]
+[ext_resource type="Texture2D" uid="uid://bl4hs08id2pan" path="res://Assets/galaxy_move_animation/galaxy_move_006.png" id="8_qhelo"]
+[ext_resource type="Texture2D" uid="uid://cwcv5uvfc5ell" path="res://Assets/galaxy_move_animation/galaxy_move_007.png" id="9_r65xh"]
+[ext_resource type="Texture2D" uid="uid://0kmkdupgqigv" path="res://Assets/galaxy_move_animation/galaxy_move_008.png" id="10_gnsm2"]
+[ext_resource type="Texture2D" uid="uid://eiv3uaxiebw2" path="res://Assets/galaxy_move_animation/galaxy_move_009.png" id="11_vhs2x"]
+[ext_resource type="Texture2D" uid="uid://drrhvwmkpfj7s" path="res://Assets/galaxy_move_animation/galaxy_move_010.png" id="12_o57pa"]
+[ext_resource type="Texture2D" uid="uid://ciani1yahpuk3" path="res://Assets/galaxy_move_animation/galaxy_move_011.png" id="13_ay7hw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_giwii"]
+radius = 200.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5m2cs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_wtfuu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ie4sy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_whmn1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_rune5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_w62iv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_hp3i0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_qhelo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_r65xh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_gnsm2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_vhs2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_o57pa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ay7hw")
+}],
+"loop": 1,
+"name": &"idle_move",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3fg1j"]
+radius = 30.066593
+
+[node name="EnemyLeader" type="CharacterBody2D" unique_id=2107522909]
+motion_mode = 1
+script = ExtResource("1_qj1vc")
+
+[node name="FlockRadius" type="Area2D" parent="." unique_id=1289772124]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FlockRadius" unique_id=479000412]
+shape = SubResource("CircleShape2D_giwii")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1126980296]
+sprite_frames = SubResource("SpriteFrames_5m2cs")
+animation = &"idle_move"
+autoplay = "idle_move"
+
+[node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=1909487384]
+shape = SubResource("CircleShape2D_3fg1j")
