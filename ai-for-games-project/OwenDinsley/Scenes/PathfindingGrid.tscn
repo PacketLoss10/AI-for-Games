@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dbxpa72he8r3i"]
+
+[ext_resource type="Script" uid="uid://dcj0auw4yqnoy" path="res://OwenDinsley/Scripts/pathfinding_grid.gd" id="1_ax66v"]
+
+[node name="PathfindingGrid" type="Node2D" unique_id=994054692]
+script = ExtResource("1_ax66v")

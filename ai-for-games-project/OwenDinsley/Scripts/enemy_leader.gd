@@ -24,7 +24,7 @@ func leader_exited(body: Node2D):
 
 
 func find_path(goal: Vector2, environment: Array):
-	_currentPath = PathFinder_NEW.find_path(global_position, goal, environment)
+	_currentPath = Pathfinder.find_path(global_position, goal, environment)
 	
 	if _currentPath.is_empty():
 		_hasPath = false

@@ -1,4 +1,4 @@
-class_name PathFinder_NEW
+class_name Pathfinder
 
 const MAX_ITERATIONS := 10000
 
@@ -118,7 +118,7 @@ static func find_path(start: Vector2, goal: Vector2, environment: Array) -> Arra
 	
 	var startPosition := allign_to_grid(start)
 	var goalPosition := allign_to_grid(goal)
-
+	
 	var startNode := get_node(startPosition, environment)
 	if startNode._existingCost == INF:
 		return []
@@ -158,3 +158,9 @@ static func find_path(start: Vector2, goal: Vector2, environment: Array) -> Arra
 			open.push(nextNode)
 	
 	return []
+
+
+static func init_grid(width: int, height: int, environment: Array) -> void:
+	for x in range(-width, width):
+		for y in range(-height, height):
+			get_node(Vector2i(x, y), environment)
