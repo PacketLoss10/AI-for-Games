@@ -33,6 +33,11 @@ extends Node2D
 		update_shape_params(_blocking, _cost, _size, _visible)
 
 
+@onready var _shape: CollisionShape2D = $Area/Shape
+@onready var _label: Label = $Label
+@onready var _icon: ColorRect = $Area/ColorRect
+
+
 func _ready() -> void:
 	$Area/Shape.shape = $Area/Shape.shape.duplicate()
 	update_shape_params(_blocking, _cost, _size, _visible)
@@ -44,6 +49,10 @@ func contains_point(point: Vector2) -> bool:
 	return abs(local.x) <= half.x and abs(local.y) <= half.y
 
 
+func get_shape_transform() -> Transform2D:
+	return _shape.global_transform
+
+
 func get_area() -> Rect2:
 	var shape := $Area/Shape
 	var local := Rect2(-_size * 0.5, _size)
@@ -52,17 +61,16 @@ func get_area() -> Rect2:
 
 
 func update_shape_params(blocking: bool, cost: float, size: Vector2, isVisible: bool):
-	if $Area/Shape == null or $Label == null or $Area/Shape.shape == null or not $Area/Shape.shape is RectangleShape2D:
+	if not is_node_ready() or _shape == null or _label == null or not _shape.shape is RectangleShape2D:
 		return
 	
-	$Area/Shape.debug_color = Color(1, 0, 0, 0.2) if blocking else Color(0, 1, 0, 0.2)
+	_shape.debug_color = Color(1, 0, 0, 0.2) if blocking else Color(0, 1, 0, 0.2)
+	_shape.shape.size = size
 	
-	$Label.text = str(cost)
-	$Label.visible = isVisible
+	_label.text = str(cost)
+	_label.visible = isVisible
 	
-	$Area/Shape.shape.size = size
-	
-	$Area/ColorRect.size = size
-	$Area/ColorRect.position = -size * 0.5
-	$Area/ColorRect.color = Color(1, 0, 0, 0.2) if blocking else Color(0, 1, 0, 0.2)
-	$Area/ColorRect.visible = isVisible
+	_icon.size = size
+	_icon.position = -size * 0.5
+	_icon.color = Color(1, 0, 0, 0.2) if blocking else Color(0, 1, 0, 0.2)
+	_icon.visible = isVisible

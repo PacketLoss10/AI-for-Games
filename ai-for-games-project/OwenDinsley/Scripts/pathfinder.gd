@@ -1,166 +1,271 @@
-class_name Pathfinder
+#class_name PathFinder
+#extends Node2D
+#
+#enum Heuristic { Euclidean, Manhattan, Chebyshev }
+#
+#const MAX_ITERATIONS := 10000
+#const SQRT2 := 1.4142135623
+#const CARDINAL: Array[Vector2i] = [
+	#Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)
+#]
+#const DIAGONAL: Array[Vector2i] = [
+	#Vector2i(1, 1), Vector2i(-1, 1), Vector2i(1, -1), Vector2i(-1, -1)
+#]
+#const _BLOCKED := -2
+#
+#
+### Snapshot of the environment, built once per search.
+#class Terrain:
+	#var block_inv: Array[Transform2D] = []
+	#var block_half := PackedVector2Array()
+	#var cost_inv: Array[Transform2D] = []
+	#var cost_half := PackedVector2Array()
+	#var cost_val := PackedFloat32Array()
+#
+	#func _init(areas: Array) -> void:
+		#for a in areas:
+			#var inv: Transform2D = a.get_shape_transform().affine_inverse()
+			#var half: Vector2 = a._size * 0.5
+			#if a._blocking:
+				#block_inv.push_back(inv)
+				#block_half.push_back(half)
+			#elif a._cost != 0.0:
+				#cost_inv.push_back(inv)
+				#cost_half.push_back(half)
+				#cost_val.push_back(a._cost)
+#
+	### Returns -1.0 if blocked, otherwise the summed area cost.
+	#func cost_at(p: Vector2) -> float:
+		#for i in block_inv.size():
+			#var l := block_inv[i] * p
+			#var h := block_half[i]
+			#if absf(l.x) <= h.x and absf(l.y) <= h.y:
+				#return -1.0
+		#var total := 0.0
+		#for i in cost_inv.size():
+			#var l := cost_inv[i] * p
+			#var h := cost_half[i]
+			#if absf(l.x) <= h.x and absf(l.y) <= h.y:
+				#total += cost_val[i]
+		#return total
+#
+#
+### Distance in units of steps.
+#func _heuristic(kind: Heuristic, dx: float, dy: float) -> float:
+	#dx = absf(dx)
+	#dy = absf(dy)
+	#match kind:
+		#Heuristic.Manhattan:
+			#return dx + dy
+		#Heuristic.Chebyshev:
+			#return maxf(dx, dy)
+		#_:
+			#return sqrt(dx * dx + dy * dy)
+#
+#
+#func find_path(
+		#start: Vector2,
+		#goal: Vector2,
+		#environment: Array,
+		#heuristic := Heuristic.Euclidean,
+		#stepSize := 20.0,
+		#allowDiagonal := true) -> Array[Vector2]:
+#
+	#var dirs: Array[Vector2i] = CARDINAL + DIAGONAL if allowDiagonal else CARDINAL
+	#var inv_step := 1.0 / stepSize
+	#var goal_dist_sq := stepSize * stepSize
+	#var terrain := Terrain.new(environment)
+#
+	## Node storage (struct of arrays, indexed by node id)
+	#var positions := PackedVector2Array([start])
+	#var area_cost := PackedFloat32Array([0.0])
+	#var g := PackedFloat32Array([0.0])
+	#var prev := PackedInt32Array([-1])
+	#var closed := PackedByteArray([0])
+	#var keys: Array[Vector2i] = [Vector2i.ZERO]
+	#var index := {Vector2i.ZERO: 0}   # grid key -> node id (or _BLOCKED)
+#
+	#var open := PriorityQueue.new()
+	#open.push(0, _heuristic(heuristic, (goal.x - start.x) * inv_step, (goal.y - start.y) * inv_step))
+#
+	#var iterations := 0
+	#while not open.is_empty() and iterations < MAX_ITERATIONS:
+		#iterations += 1
+#
+		#var cur := open.pop()
+		#if closed[cur] == 1:
+			#continue
+		#closed[cur] = 1
+#
+		#if positions[cur].distance_squared_to(goal) <= goal_dist_sq:
+			#return _build_path(cur, goal, positions, prev)
+#
+		#var cur_key := keys[cur]
+		#var cur_g := g[cur]
+#
+		#for d in dirs:
+			#var key := cur_key + d
+			#var id: int = index.get(key, -1)
+#
+			#if id == _BLOCKED:
+				#continue
+			#if id >= 0 and closed[id] == 1:
+				#continue
+#
+			#if id == -1:  # first time we see this cell: evaluate terrain once
+				#var p := start + Vector2(key) * stepSize
+				#var tc := terrain.cost_at(p)
+				#if tc < 0.0:
+					#index[key] = _BLOCKED
+					#continue
+				#id = positions.size()
+				#index[key] = id
+				#positions.push_back(p)
+				#area_cost.push_back(tc)
+				#g.push_back(INF)
+				#prev.push_back(-1)
+				#closed.push_back(0)
+				#keys.push_back(key)
+			#
+			#var step := SQRT2 if (d.x != 0 and d.y != 0) else 1.0
+			#var new_g := cur_g + step + area_cost[id]
+			#if new_g < g[id]:
+				#g[id] = new_g
+				#prev[id] = cur
+				#var p := positions[id]
+				#open.push(id, new_g + _heuristic(heuristic, (goal.x - p.x) * inv_step, (goal.y - p.y) * inv_step))
+	#
+	#return []
+#
+#
+#func _build_path(last: int, goal: Vector2, positions: PackedVector2Array, prev: PackedInt32Array) -> Array[Vector2]:
+	#var path: Array[Vector2] = [goal]
+	#var n := last
+	#while n != -1:
+		#path.push_back(positions[n])
+		#n = prev[n]
+	#return path
 
+class_name PathFinder
+extends RefCounted
+ 
+enum Heuristic { Euclidean, Manhattan, Chebyshev }
+ 
 const MAX_ITERATIONS := 10000
+const SQRT2 := 1.4142135623
+const CARDINAL: Array[Vector2i] = [
+	Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)
+]
+const DIAGONAL: Array[Vector2i] = [
+	Vector2i(1, 1), Vector2i(-1, 1), Vector2i(1, -1), Vector2i(-1, -1)
+]
+ 
+static var active_environment := NavigationEnvironment.new()
+ 
+ 
+class SearchGraph:
+	const UNSEEN := -1
+	const BLOCKED := -2
+	
+	var positions := PackedVector2Array()
+	var area_cost := PackedFloat32Array()
+	var g := PackedFloat32Array()
+	var prev := PackedInt32Array()
+	var closed := PackedByteArray()
+	var keys: Array[Vector2i] = []
+	var _index := {}
+	
+	func _init(start: Vector2) -> void:
+		add_node(Vector2i.ZERO, start, 0.0)
+		g[0] = 0.0
+	
+	func add_node(key: Vector2i, pos: Vector2, cost: float) -> int:
+		var id := positions.size()
+		_index[key] = id
+		positions.push_back(pos)
+		area_cost.push_back(cost)
+		g.push_back(INF)
+		prev.push_back(-1)
+		closed.push_back(0)
+		keys.push_back(key)
+		return id
+	func lookup(key: Vector2i) -> int:
+		return _index.get(key, UNSEEN)
+	func mark_blocked(key: Vector2i) -> void:
+		_index[key] = BLOCKED 
+	func build_path(last: int, goal: Vector2) -> Array[Vector2]:
+		var path: Array[Vector2] = [goal]
+		var n := last
+		while n != -1:
+			path.push_back(positions[n])
+			n = prev[n]
+		return path
 
 
-
-
-
-enum Heuristic
-{
-	Euclidean,
-	Manhattan,
-	Chebyshev
-}
-
-static func euclidean(v1: Vector2, v2: Vector2):
-	return v1.distance_to(v2)
-
-static func manhattan(v1: Vector2, v2: Vector2):
-	return abs(v2.x - v1.x) + abs(v2.y - v1.y)
-
-static func chebyshev(v1: Vector2, v2: Vector2):
-	return max(abs(v2.x - v1.x), abs(v2.y - v1.y))
-
-static func get_heuristic_function(heuristic: Heuristic) -> Callable:
-	match heuristic:
-		Heuristic.Euclidean:
-			return euclidean
+static func _heuristic(kind: Heuristic, dx: float, dy: float) -> float:
+	dx = absf(dx)
+	dy = absf(dy)
+	match kind:
 		Heuristic.Manhattan:
-			return manhattan
+			return dx + dy
 		Heuristic.Chebyshev:
-			return chebyshev
+			return maxf(dx, dy)
 		_:
-			return euclidean
-
-
-
-
-
-const GRID_SIZE := 20.0
-
-static func allign_to_grid(position: Vector2) -> Vector2i:
-	return Vector2i(roundi(position.x / GRID_SIZE), roundi(position.y / GRID_SIZE))
-
-static func allign_to_world(position: Vector2i) -> Vector2:
-	return Vector2(position) * GRID_SIZE
-
-static func get_directions(allowDiagonal: bool) -> Array[Vector2]:
-	return [
-	Vector2(1.0, 0.0),
-	Vector2(-1.0, 0.0),
-	Vector2(0.0, 1.0),
-	Vector2(0.0, -1.0),
-	Vector2(1.0, 1.0),
-	Vector2(-1.0, 1.0),
-	Vector2(1.0, -1.0),
-	Vector2(-1.0, -1.0) 
-	] if allowDiagonal else [
-	Vector2(1.0, 0.0),
-	Vector2(-1.0, 0.0),
-	Vector2(0.0, 1.0),
-	Vector2(0.0, -1.0)
-	]
-
-
-
-
-
-static var _cachedNodes: Dictionary[Vector2i, PathfindingNode] = {}
-static var _hash := 0
-
-static func get_node(position: Vector2i, environment: Array) -> PathfindingNode:
-	var node: PathfindingNode
+			return sqrt(dx * dx + dy * dy)
+ 
+ 
+static func find_path(
+		start: Vector2,
+		goal: Vector2,
+		heuristic := Heuristic.Euclidean,
+		step_size := 20.0,
+		allow_diagonal := true) -> Array[Vector2]:
+			
+	var dirs: Array[Vector2i] = CARDINAL + DIAGONAL if allow_diagonal else CARDINAL
+	var inv_step := 1.0 / step_size
+	var goal_dist_sq := step_size * step_size
 	
-	if _cachedNodes.has(position):
-		node = _cachedNodes[position]
-	else:
-		var nodePosition := allign_to_world(position)
-		node = PathfindingNode.new(nodePosition, calculate_cost(nodePosition, environment))
-		_cachedNodes[position] = node
-	
-	node.reset(_hash)
-	return node
-
-static func calculate_cost(position: Vector2, environment: Array) -> float:
-	var cost := 0.0
-	
-	for area: CostArea in environment:
-		if area.contains_point(position):
-			cost += area._cost
-	
-	return cost
-
-
-
-
-
-static func construct_path(current: PathfindingNode) -> Array[Vector2]:
-	var path: Array[Vector2] = []
-	
-	var previous := current
-	while previous != null:
-		path.push_back(previous._position)
-		previous = previous._previous
-	
-	return path
-
-
-
-
-
-static func find_path(start: Vector2, goal: Vector2, environment: Array) -> Array[Vector2]:
-	_hash += 1
-	
-	var heuristicFunction := get_heuristic_function(Heuristic.Euclidean)
-	var directions = get_directions(true)
-	var open := PriorityQueue.new(func(A: PathfindingNode, B: PathfindingNode): return A._finalCost < B._finalCost)
-	
-	var startPosition := allign_to_grid(start)
-	var goalPosition := allign_to_grid(goal)
-	
-	var startNode := get_node(startPosition, environment)
-	if startNode._existingCost == INF:
-		return []
-	
-	startNode._movementCost = 0.0
-	startNode._heuristicCost = heuristicFunction.call(Vector2(startPosition), Vector2(goalPosition)) * GRID_SIZE
-	open.push(startNode)
-	
-	var it := 0
-	while not open.is_empty() and it < MAX_ITERATIONS:
-		it += 1
+	var graph := SearchGraph.new(start)
+	var open := PriorityQueue.new()
+	open.push(0, _heuristic(heuristic, (goal.x - start.x) * inv_step, (goal.y - start.y) * inv_step))
+	var iterations := 0
+	while not open.is_empty() and iterations < MAX_ITERATIONS:
+		iterations += 1
 		
-		var currentNode: PathfindingNode = open.pop()
-		if currentNode._closed:
+		var cur := open.pop()
+		if graph.closed[cur] == 1:
 			continue
-		currentNode._closed = true
+		graph.closed[cur] = 1
 		
-		var currentPosition := allign_to_grid(currentNode._position)
-		if currentPosition == goalPosition:
-			return construct_path(currentNode)
+		if graph.positions[cur].distance_squared_to(goal) <= goal_dist_sq:
+			return graph.build_path(cur, goal)
+			
+		var cur_key := graph.keys[cur]
+		var cur_g := graph.g[cur]
 		
-		for direction: Vector2i in directions:
-			var nextPosition := currentPosition + direction
-			var nextNode := get_node(nextPosition, environment)
-			if nextNode._closed or nextNode._existingCost == INF:
+		for d in dirs:
+			var key := cur_key + d
+			var id := graph.lookup(key)
+			
+			if id == SearchGraph.BLOCKED:
+				continue
+			if id >= 0 and graph.closed[id] == 1:
 				continue
 			
-			var movementDistance := Vector2(direction).length() * GRID_SIZE
-			var totalCost := (currentNode._movementCost + movementDistance * (1.0 +  nextNode._existingCost))
-			if totalCost >= nextNode._movementCost:
-				continue
-			
-			nextNode._previous = currentNode
-			nextNode._movementCost = totalCost
-			nextNode._heuristicCost = heuristicFunction.call(Vector2(nextPosition), Vector2(goalPosition)) * GRID_SIZE
-			
-			open.push(nextNode)
-	
+			if id == SearchGraph.UNSEEN:
+				var p := start + Vector2(key) * step_size
+				var tc := active_environment.cost_at(p)
+				if tc == NavigationEnvironment.BLOCKED:
+					graph.mark_blocked(key)
+					continue
+				id = graph.add_node(key, p, tc)
+				
+			var step := SQRT2 if (d.x != 0 and d.y != 0) else 1.0
+			var new_g := cur_g + step + graph.area_cost[id]
+			if new_g < graph.g[id]:
+				graph.g[id] = new_g
+				graph.prev[id] = cur
+				var pos := graph.positions[id]
+				open.push(id, new_g + _heuristic(heuristic, (goal.x - pos.x) * inv_step, (goal.y - pos.y) * inv_step))
+				
 	return []
-
-
-static func init_grid(width: int, height: int, environment: Array) -> void:
-	for x in range(-width, width):
-		for y in range(-height, height):
-			get_node(Vector2i(x, y), environment)
