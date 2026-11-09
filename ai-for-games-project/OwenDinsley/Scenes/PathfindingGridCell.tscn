@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://gta3d4aaivkp"]
+
+[ext_resource type="Script" uid="uid://dpi5yxw6pa8co" path="res://OwenDinsley/Scripts/pathfinding_grid_cell.gd" id="1_hjv28"]
+
+[node name="GridCell" type="ColorRect" unique_id=1558252295]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.30668592, 0.5740558, 0.22515783, 0.38431373)
+script = ExtResource("1_hjv28")

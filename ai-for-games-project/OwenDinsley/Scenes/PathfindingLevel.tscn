@@ -3,34 +3,57 @@
 [ext_resource type="Script" uid="uid://chogbu0jmtodh" path="res://OwenDinsley/Scripts/pathfinding_level.gd" id="1_hhfob"]
 [ext_resource type="PackedScene" uid="uid://cih6otn3jpb8t" path="res://OwenDinsley/Scenes/CostArea.tscn" id="2_5er6f"]
 [ext_resource type="PackedScene" uid="uid://d0xfb3t6dllxt" path="res://OwenDinsley/Scenes/EnemyLeader.tscn" id="3_j3bdb"]
+[ext_resource type="PackedScene" uid="uid://dbxpa72he8r3i" path="res://OwenDinsley/Scenes/PathfindingGrid.tscn" id="4_5er6f"]
 
-[node name="Root" type="Node2D" unique_id=111339850]
+[node name="PathfindingLevel" type="Node2D" unique_id=111339850]
 script = ExtResource("1_hhfob")
 
 [node name="Environment" type="Node2D" parent="." unique_id=1793068612]
 
 [node name="Area1" parent="Environment" unique_id=1229141042 instance=ExtResource("2_5er6f")]
-position = Vector2(258, 208)
+position = Vector2(350, 90)
 _blocking = true
 _cost = inf
 _size = Vector2(500, 100)
 
-[node name="Area2" parent="Environment" unique_id=1129500575 instance=ExtResource("2_5er6f")]
-position = Vector2(538, 140)
+[node name="Area3" parent="Environment" unique_id=1568637098 instance=ExtResource("2_5er6f")]
+position = Vector2(712, 561)
 _blocking = true
 _cost = inf
-_size = Vector2(100, 500)
+_size = Vector2(200, 100)
+
+[node name="Area6" parent="Environment" unique_id=1429515260 instance=ExtResource("2_5er6f")]
+position = Vector2(750, 382)
+_blocking = true
+_cost = inf
+_size = Vector2(200, 100)
+
+[node name="Area2" parent="Environment" unique_id=1129500575 instance=ExtResource("2_5er6f")]
+position = Vector2(598, 334)
+_blocking = true
+_cost = inf
+_size = Vector2(100, 200)
+
+[node name="Area5" parent="Environment" unique_id=1544004602 instance=ExtResource("2_5er6f")]
+position = Vector2(1005, 281)
+_blocking = true
+_cost = inf
+
+[node name="Area4" parent="Environment" unique_id=1237136161 instance=ExtResource("2_5er6f")]
+position = Vector2(352, 321)
+_blocking = true
+_cost = inf
+_size = Vector2(100, 200)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=917330937]
 
 [node name="EnemyLeader1" parent="Enemies" unique_id=2107522909 instance=ExtResource("3_j3bdb")]
-position = Vector2(140, 482)
+position = Vector2(75, 234)
 
 [node name="EnemyLeader2" parent="Enemies" unique_id=664642248 instance=ExtResource("3_j3bdb")]
-position = Vector2(572, 429)
+position = Vector2(325, 619)
 
 [node name="EnemyLeader3" parent="Enemies" unique_id=822433840 instance=ExtResource("3_j3bdb")]
-position = Vector2(779, 135)
+position = Vector2(746, 150)
 
-[node name="EnemyLeader4" parent="Enemies" unique_id=330736622 instance=ExtResource("3_j3bdb")]
-position = Vector2(946, 426)
+[node name="PathfindingGrid" parent="." unique_id=994054692 instance=ExtResource("4_5er6f")]
