@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bio2omgapu4lg"]
+
+[ext_resource type="Script" uid="uid://chifx4d0pnefj" path="res://SamF/enemy_sight.gd" id="1_1o1ts"]
+
+[node name="EnemySight" type="Area2D" unique_id=2077338764]
+script = ExtResource("1_1o1ts")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="." unique_id=678138148]
+polygon = PackedVector2Array(0, 0, 24, -16, 24, 16)

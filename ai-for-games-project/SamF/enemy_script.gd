@@ -17,3 +17,6 @@ func _process(delta: float) -> void:
 	
 func isPlayerHeard():
 	return playerHeard
+
+func player_in_line_of_sight():
+	pass

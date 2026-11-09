@@ -2,12 +2,11 @@ class_name EnemyIdleState
 extends EnemyState
 
 func transition_to_attack() -> bool:
-	#
+	return true
+	
 
 func on_enter_state() -> void:
-	# velocity = 0
-	# or
-	# clear path
+	var velocity = 0
 	pass
 
 
