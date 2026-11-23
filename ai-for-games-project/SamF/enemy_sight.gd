@@ -3,6 +3,8 @@ extends Area2D
 
 
 var player_seen := false
+var player_lastknown := Vector2(0,0)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,6 +17,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 	
+	
 func on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		player_seen = true
@@ -22,4 +25,6 @@ func on_body_entered(body: Node2D) -> void:
 
 func on_body_exited(body: Node2D) -> void:
 	if body is Player:
+		player_lastknown = Player.global_position
 		player_seen = false
+	

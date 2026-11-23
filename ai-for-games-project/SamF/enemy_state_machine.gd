@@ -9,6 +9,7 @@ func _ready() -> void:
 	if enemy == null:
 		push_error("parent of state machine is not enemy")
 		return
+	current_state = EnemyIdleState.new()
 
 func _process(delta: float) -> void:
 	
