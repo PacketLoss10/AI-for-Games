@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 	
 	
 	time += delta
-	if time >= 1.0:
+	if time == 1.0:
 		if current_state == null:
 			return
 		

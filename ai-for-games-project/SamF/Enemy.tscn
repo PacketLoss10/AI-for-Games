@@ -23,3 +23,6 @@ script = ExtResource("3_y3lw3")
 
 [node name="EnemySight" parent="." unique_id=2077338764 instance=ExtResource("4_twdqs")]
 unique_name_in_owner = true
+position = Vector2(-145.00002, -104)
+rotation = -3.1415927
+scale = Vector2(50.207066, 50.20017)
